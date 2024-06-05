@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeInfo, Search } from "lucide-react";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { useCopyToClipboard, useDebounceValue } from "usehooks-ts";
 
 import Page from "@/components/page.tsx";
@@ -105,7 +105,7 @@ function UsersPage() {
                 <TableCell className="whitespace-nowrap">{user.phone}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>{user.id}</TableCell>
-                <TableCell>{format(new Date(user.birthDate), "dd/MM/yy")}</TableCell>
+                <TableCell>{format(parseISO(user.birthDate), "dd/MM/yy")}</TableCell>
                 <TableCell>
                   <div className="flex justify-center gap-1">
                     <ActionTooltip label="Show all info">
