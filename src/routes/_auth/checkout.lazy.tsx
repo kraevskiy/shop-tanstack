@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button.tsx";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.tsx";
 import { Minus, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge.tsx";
+import ProfileBilling from "@/routes/_auth/-components/profile-billing.tsx";
+import { useUserStore } from "@/hooks/use-user.store.ts";
 
 export const Route = createLazyFileRoute("/_auth/checkout")({
   component: CheckoutPage,
@@ -16,6 +18,7 @@ export const Route = createLazyFileRoute("/_auth/checkout")({
 
 function CheckoutPage() {
   const { totalPrice, products, addProduct, removeProduct } = useShopCard();
+  const { user } = useUserStore();
 
   return (
     <div className="flex flex-col">
@@ -93,7 +96,7 @@ function CheckoutPage() {
             </Table>
           </CardContent>
         </Card>
-        <Card className="md:col-span-2 relative">
+        <Card className="relative md:col-span-2">
           <CardHeader className="sticky top-2">
             <div className="flex w-full justify-between">
               <p className="text-xl">Subtotal:</p>
@@ -101,8 +104,9 @@ function CheckoutPage() {
             </div>
           </CardHeader>
           <CardContent className="flex flex-col">
+            <ProfileBilling user={user} title="Billing information:" billingType="bank" />
             <Separator className="my-5" />
-            <Button>Buy</Button>
+            <Button> Buy</Button>
           </CardContent>
         </Card>
       </div>

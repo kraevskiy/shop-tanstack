@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import Page from "@/components/page.tsx";
-import { SearchProductParams } from "@/types/search-product-params.ts";
+import { SearchParams } from "@/types/search-params.ts";
 import { useProductsQuery } from "@/lib/queries.ts";
 import Categories from "./-components/categories.tsx";
 import ProductCard from "./-components/product-card.tsx";
@@ -12,7 +12,7 @@ import { useModal } from "@/hooks/use-modal.store.ts";
 import { useShopCard } from "@/hooks/use-shop-card.store.ts";
 
 export const Route = createFileRoute("/products/")({
-  validateSearch: (search: Record<string, unknown>): SearchProductParams => ({
+  validateSearch: (search: Record<string, unknown>): SearchParams => ({
     limit: Number(search.limit ?? 30),
     skip: Number(search.skip ?? 0),
   }),

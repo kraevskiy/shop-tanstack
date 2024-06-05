@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
 import { CreditCard, LogOut, User } from "lucide-react";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 
 import { useUserStore } from "@/hooks/use-user.store.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.tsx";
@@ -17,11 +17,14 @@ import { ELocalStorage } from "@/types/local-storage-enum.ts";
 const UserMenu = () => {
   const { user, logOut } = useUserStore();
   const router = useRouter();
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
     localStorage.removeItem(ELocalStorage.token);
     logOut();
-    router.invalidate();
+    router.invalidate().finally(() => {
+      navigate({ to: "/" });
+    });
   };
 
   return (

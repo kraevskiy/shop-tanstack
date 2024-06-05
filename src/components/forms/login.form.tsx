@@ -52,7 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError, values }) => 
             <FormItem>
               <FormLabel className="text-left">Username</FormLabel>
               <FormControl>
-                <Input placeholder="username" {...field} />
+                <Input placeholder="username" {...field} className="text-xl"/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,7 +66,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError, values }) => 
             <FormItem>
               <FormLabel className="text-left">Password</FormLabel>
               <FormControl>
-                <Input placeholder="password" {...field} />
+                <Input placeholder="password" {...field} className="text-xl"/>
               </FormControl>
               <FormMessage />
             </FormItem>

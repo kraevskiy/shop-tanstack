@@ -1,3 +1,5 @@
+import { IBaseListResponse } from '@/types/base.interfaces.ts';
+
 export interface IUser {
   id: number;
   firstName: string;
@@ -66,7 +68,7 @@ export interface IUser {
     wallet: string;
     network: string;
   };
-  role: 'admin' | 'moderator' | 'user';
+  role: "admin" | "moderator" | "user";
 }
 
 export interface IUserLogin {
@@ -78,4 +80,8 @@ export interface IUserLogin {
   gender: string;
   image: string;
   token: string;
+}
+
+export interface IUsersList extends IBaseListResponse{
+  users: IUser[];
 }

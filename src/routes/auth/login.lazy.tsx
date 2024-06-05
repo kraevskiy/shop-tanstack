@@ -8,9 +8,16 @@ import { useToast } from "@/components/ui/use-toast.ts";
 
 export const Route = createFileRoute("/auth/login")({
   component: LoginPage,
-  beforeLoad: ({ context }) => {
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } | void => {
+    if ("redirect" in search && typeof search.redirect === "string") {
+      return {
+        redirect: search.redirect,
+      };
+    }
+  },
+  beforeLoad: ({ context, search }) => {
     if (context.user !== null) {
-      throw redirect({ to: "/profile" });
+      throw redirect({ to: search?.redirect ?? "/profile" });
     }
   },
 });

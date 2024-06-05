@@ -13,7 +13,7 @@ import { useModal } from "@/hooks/use-modal.store.ts";
 import Rating from "@/components/rating.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table.tsx";
-import Reviews from '@/components/reviews.tsx';
+import Reviews from "@/components/reviews.tsx";
 
 export const Route = createLazyFileRoute("/products/$productId")({
   component: ProductPage,
@@ -128,7 +128,9 @@ function ProductPage() {
                 <TableCell>Tags:</TableCell>
                 <TableCell className="flex gap-2">
                   {data.tags.map((tag) => (
-                    <Badge key={tag} variant="outline">{tag}</Badge>
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
                   ))}
                 </TableCell>
               </TableRow>
@@ -163,7 +165,7 @@ function ProductPage() {
           </Table>
         </CardContent>
       </Card>
-      <Reviews reviews={data.reviews}/>
+      <Reviews reviews={data.reviews} />
     </Page>
   );
 }

@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as ProductsIndexImport } from './routes/products/index'
+import { Route as AuthUsersIndexImport } from './routes/_auth/users/index'
 
 // Create Virtual Routes
 
@@ -30,6 +31,7 @@ const ProductsCategoryIndexLazyImport = createFileRoute('/products/category/')()
 const ProductsCategoryCategorySlugLazyImport = createFileRoute(
   '/products/category/$categorySlug',
 )()
+const AuthUsersUserIdLazyImport = createFileRoute('/_auth/users/$userId')()
 
 // Create/Update Routes
 
@@ -94,6 +96,11 @@ const ProductsCategoryIndexLazyRoute = ProductsCategoryIndexLazyImport.update({
   import('./routes/products/category/index.lazy').then((d) => d.Route),
 )
 
+const AuthUsersIndexRoute = AuthUsersIndexImport.update({
+  path: '/users/',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 const ProductsCategoryCategorySlugLazyRoute =
   ProductsCategoryCategorySlugLazyImport.update({
     path: '/products/category/$categorySlug',
@@ -103,6 +110,13 @@ const ProductsCategoryCategorySlugLazyRoute =
       (d) => d.Route,
     ),
   )
+
+const AuthUsersUserIdLazyRoute = AuthUsersUserIdLazyImport.update({
+  path: '/users/$userId',
+  getParentRoute: () => AuthRoute,
+} as any).lazy(() =>
+  import('./routes/_auth/users/$userId.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -178,12 +192,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/_auth/users/$userId': {
+      id: '/_auth/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof AuthUsersUserIdLazyImport
+      parentRoute: typeof AuthImport
+    }
     '/products/category/$categorySlug': {
       id: '/products/category/$categorySlug'
       path: '/products/category/$categorySlug'
       fullPath: '/products/category/$categorySlug'
       preLoaderRoute: typeof ProductsCategoryCategorySlugLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/users/': {
+      id: '/_auth/users/'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthUsersIndexImport
+      parentRoute: typeof AuthImport
     }
     '/products/category/': {
       id: '/products/category/'
@@ -203,6 +231,8 @@ export const routeTree = rootRoute.addChildren({
     AuthBillingLazyRoute,
     AuthCheckoutLazyRoute,
     AuthProfileLazyRoute,
+    AuthUsersUserIdLazyRoute,
+    AuthUsersIndexRoute,
   }),
   AuthLoginLazyRoute,
   AuthRegisterLazyRoute,
@@ -240,7 +270,9 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_auth/billing",
         "/_auth/checkout",
-        "/_auth/profile"
+        "/_auth/profile",
+        "/_auth/users/$userId",
+        "/_auth/users/"
       ]
     },
     "/_auth/billing": {
@@ -270,8 +302,16 @@ export const routeTree = rootRoute.addChildren({
     "/auth/": {
       "filePath": "auth/index.lazy.tsx"
     },
+    "/_auth/users/$userId": {
+      "filePath": "_auth/users/$userId.lazy.tsx",
+      "parent": "/_auth"
+    },
     "/products/category/$categorySlug": {
       "filePath": "products/category/$categorySlug.lazy.tsx"
+    },
+    "/_auth/users/": {
+      "filePath": "_auth/users/index.tsx",
+      "parent": "/_auth"
     },
     "/products/category/": {
       "filePath": "products/category/index.lazy.tsx"

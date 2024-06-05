@@ -19,6 +19,8 @@ import MobileToggle from '@/components/mobile-toggle.tsx';
 
 const Navigation = () => {
   const { user } = useUserStore();
+  const isAdmin = user && user.role === 'admin';
+  const isModerator = user && user.role === 'moderator';
 
   return (
     <NavigationMenu>
@@ -41,6 +43,17 @@ const Navigation = () => {
             )}
           </Link>
         </NavigationMenuItem>
+        {(isAdmin || isModerator) && (
+          <NavigationMenuItem className="hidden md:block">
+            <Link to="/users">
+              {(state) => (
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
+                  <span>Users</span>
+                </NavigationMenuLink>
+              )}
+            </Link>
+          </NavigationMenuItem>
+        )}
         {user && (
           <>
             <NavigationMenuItem>

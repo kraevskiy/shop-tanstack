@@ -1,3 +1,5 @@
+import { IBaseListResponse } from '@/types/base.interfaces.ts';
+
 export interface IProduct {
   id: number;
   title: string;
@@ -52,9 +54,7 @@ type IProductsListKey =
 
 export interface IProductsItem extends Pick<IProduct, IProductsListKey> {}
 
-export interface IProductsList {
+export interface IProductsList  extends IBaseListResponse{
   products: IProductsItem[];
-  total: number;
-  skip: number;
-  limit: number;
 }
+

@@ -2,7 +2,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle } from "@
 import { Button } from "@/components/ui/button.tsx";
 import { MenuIcon, X } from "lucide-react";
 import { Link, useRouter } from "@tanstack/react-router";
-import { NavigationMenuLink, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu.tsx";
+import { NavigationMenuItem, NavigationMenuLink, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu.tsx';
 import { useUserStore } from "@/hooks/use-user.store.ts";
 import { useState } from "react";
 
@@ -10,6 +10,10 @@ const MobileToggle = () => {
   const { user } = useUserStore();
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  const isAdmin = user && user.role === 'admin';
+  const isModerator = user && user.role === 'moderator';
+
   router.subscribe("onResolved", () => {
     if (open) {
       setOpen(false);
@@ -50,6 +54,17 @@ const MobileToggle = () => {
                 </NavigationMenuLink>
               )}
             </Link>
+            {(isAdmin || isModerator) && (
+              <NavigationMenuItem className="hidden md:block">
+                <Link to="/users">
+                  {(state) => (
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
+                      <span>Users</span>
+                    </NavigationMenuLink>
+                  )}
+                </Link>
+              </NavigationMenuItem>
+            )}
             {!user && (
               <Link
                 to="/auth"

@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IUser, IUserLogin } from "@/types/user.interface.ts";
-import { LoginInputs } from "@/types/login.schema.ts";
-import { SearchProductParams } from "@/types/search-product-params.ts";
 import qs from "query-string";
+
+import { IUser, IUserLogin, IUsersList } from "@/types/user.interface.ts";
+import { LoginInputs } from "@/types/login.schema.ts";
+import { SearchParams, SearchParamsWithQuery } from "@/types/search-params.ts";
 import { IProduct, IProductsList } from "@/types/product.interface.ts";
 import { ICategory } from "@/types/category.interface.ts";
 
@@ -38,7 +39,7 @@ export const useLoginMutation = () =>
       }).then((res) => res.json()),
   });
 
-export const useProductsQuery = (searchParams: SearchProductParams) =>
+export const useProductsQuery = (searchParams?: SearchParams) =>
   useQuery<IProductsList>({
     queryKey: ["Products", searchParams],
     queryFn: async () => {
@@ -66,4 +67,22 @@ export const useCategoriesProductsQuery = (categorySlug?: string) =>
   useQuery<IProductsList>({
     queryKey: ["ProductCategory", categorySlug],
     queryFn: async () => fetch(`https://dummyjson.com/products/category/${categorySlug}`).then((res) => res.json()),
+  });
+
+export const useUsersQuery = (searchParams?: SearchParamsWithQuery) =>
+  useQuery<IUsersList>({
+    queryKey: ["ProductCategory", searchParams],
+    queryFn: async () => {
+      const url = qs.stringifyUrl({
+        url: "https://dummyjson.com/users/search",
+        query: { ...searchParams, select: "email,username,firstName,lastName,image,phone,role,birthDate" },
+      });
+      return await fetch(url).then((res) => res.json());
+    },
+  });
+
+export const useUserIdQuery = (userId: string) =>
+  useQuery<IUser>({
+    queryKey: ["User", userId],
+    queryFn: async () => fetch(`https://dummyjson.com/users/${userId}`).then((res) => res.json()),
   });
