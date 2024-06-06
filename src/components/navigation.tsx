@@ -6,21 +6,17 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
+} from "@/components/ui/navigation-menu";
 import { useUserStore } from "@/hooks/use-user.store.ts";
 import { ModeToggle } from "@/components/mode-toggler.tsx";
 import UserMenu from "@/components/menus/user.menu.tsx";
-import ShopCardMenu from '@/components/menus/shop-card.menu.tsx';
-import MobileToggle from '@/components/mobile-toggle.tsx';
-
-
-
-
+import ShopCardMenu from "@/components/menus/shop-card.menu.tsx";
+import MobileToggle from "@/components/mobile-toggle.tsx";
 
 const Navigation = () => {
   const { user } = useUserStore();
-  const isAdmin = user && user.role === 'admin';
-  const isModerator = user && user.role === 'moderator';
+  const isAdmin = user && user.role === "admin";
+  const isModerator = user && user.role === "moderator";
 
   return (
     <NavigationMenu>
@@ -39,6 +35,15 @@ const Navigation = () => {
             {(state) => (
               <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
                 <span>Products</span>
+              </NavigationMenuLink>
+            )}
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem className="hidden md:block">
+          <Link to="/posts">
+            {(state) => (
+              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
+                <span>Posts</span>
               </NavigationMenuLink>
             )}
           </Link>

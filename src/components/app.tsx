@@ -42,8 +42,12 @@ const App = () => {
         <Toaster />
       </div>
       <ModalProvider />
-      <ReactQueryDevtools buttonPosition="bottom-right" />
-      <TanStackRouterDevtools />
+      {import.meta.env.DEV && (
+        <>
+          <ReactQueryDevtools buttonPosition="bottom-right" />
+          <TanStackRouterDevtools />
+        </>
+      )}
     </ThemeProvider>
   );
 };

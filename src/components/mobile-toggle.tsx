@@ -54,6 +54,15 @@ const MobileToggle = () => {
                 </NavigationMenuLink>
               )}
             </Link>
+            <Link
+              to="/posts"
+            >
+              {(state) => (
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
+                  <span className="!w-full max-w-full">Posts</span>
+                </NavigationMenuLink>
+              )}
+            </Link>
             {(isAdmin || isModerator) && (
               <Link
                 to="/users"

@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as ProductsIndexImport } from './routes/products/index'
+import { Route as PostsIndexImport } from './routes/posts/index'
 import { Route as AuthUsersIndexImport } from './routes/_auth/users/index'
 
 // Create Virtual Routes
@@ -22,6 +23,7 @@ import { Route as AuthUsersIndexImport } from './routes/_auth/users/index'
 const IndexLazyImport = createFileRoute('/')()
 const AuthIndexLazyImport = createFileRoute('/auth/')()
 const ProductsProductIdLazyImport = createFileRoute('/products/$productId')()
+const PostsPostIdLazyImport = createFileRoute('/posts/$postId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginLazyImport = createFileRoute('/auth/login')()
 const AuthProfileLazyImport = createFileRoute('/_auth/profile')()
@@ -55,12 +57,22 @@ const ProductsIndexRoute = ProductsIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const PostsIndexRoute = PostsIndexImport.update({
+  path: '/posts/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProductsProductIdLazyRoute = ProductsProductIdLazyImport.update({
   path: '/products/$productId',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/products/$productId.lazy').then((d) => d.Route),
 )
+
+const PostsPostIdLazyRoute = PostsPostIdLazyImport.update({
+  path: '/posts/$postId',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/posts/$postId.lazy').then((d) => d.Route))
 
 const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
   path: '/auth/register',
@@ -171,11 +183,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterLazyImport
       parentRoute: typeof rootRoute
     }
+    '/posts/$postId': {
+      id: '/posts/$postId'
+      path: '/posts/$postId'
+      fullPath: '/posts/$postId'
+      preLoaderRoute: typeof PostsPostIdLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/products/$productId': {
       id: '/products/$productId'
       path: '/products/$productId'
       fullPath: '/products/$productId'
       preLoaderRoute: typeof ProductsProductIdLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof PostsIndexImport
       parentRoute: typeof rootRoute
     }
     '/products/': {
@@ -236,7 +262,9 @@ export const routeTree = rootRoute.addChildren({
   }),
   AuthLoginLazyRoute,
   AuthRegisterLazyRoute,
+  PostsPostIdLazyRoute,
   ProductsProductIdLazyRoute,
+  PostsIndexRoute,
   ProductsIndexRoute,
   AuthIndexLazyRoute,
   ProductsCategoryCategorySlugLazyRoute,
@@ -255,7 +283,9 @@ export const routeTree = rootRoute.addChildren({
         "/_auth",
         "/auth/login",
         "/auth/register",
+        "/posts/$postId",
         "/products/$productId",
+        "/posts/",
         "/products/",
         "/auth/",
         "/products/category/$categorySlug",
@@ -293,8 +323,14 @@ export const routeTree = rootRoute.addChildren({
     "/auth/register": {
       "filePath": "auth/register.lazy.tsx"
     },
+    "/posts/$postId": {
+      "filePath": "posts/$postId.lazy.tsx"
+    },
     "/products/$productId": {
       "filePath": "products/$productId.lazy.tsx"
+    },
+    "/posts/": {
+      "filePath": "posts/index.tsx"
     },
     "/products/": {
       "filePath": "products/index.tsx"

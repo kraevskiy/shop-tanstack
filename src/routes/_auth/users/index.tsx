@@ -13,21 +13,10 @@ import { SearchParamsWithQuery } from "@/types/search-params.ts";
 import Pagination from "@/routes/products/-components/pagination.tsx";
 import Spinner from "@/components/spinner.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import { validateSearch } from '@/lib/validateSearch.ts';
 
 export const Route = createFileRoute("/_auth/users/")({
-  validateSearch: (search: Record<string, unknown>): SearchParamsWithQuery => {
-    const res: SearchParamsWithQuery = {};
-    if (search.limit) {
-      res["limit"] = Number(search.limit);
-    }
-    if (search.skip) {
-      res["skip"] = Number(search.limit);
-    }
-    if (search.q) {
-      res["q"] = String(search.limit);
-    }
-    return res;
-  },
+  validateSearch: validateSearch<SearchParamsWithQuery>,
   component: UsersPage,
 });
 

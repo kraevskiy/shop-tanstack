@@ -7,6 +7,7 @@ import { SearchParams, SearchParamsWithQuery } from "@/types/search-params.ts";
 import { IProduct, IProductsList } from "@/types/product.interface.ts";
 import { ICategory } from "@/types/category.interface.ts";
 import { IShopCartList } from '@/types/shop-cart.interface.ts';
+import { IPostsList } from '@/types/post.interface.ts';
 
 export const useUserQuery = (token: string) =>
   useQuery<IUser>({
@@ -92,4 +93,16 @@ export const useUserCartsQuery = (userId: string) =>
   useQuery<IShopCartList>({
     queryKey: ["Cards", userId],
     queryFn: async () => fetch(`https://dummyjson.com/carts/user/${userId}`).then((res) => res.json()),
+  });
+
+export const usePostsQuery = (searchParams?: SearchParamsWithQuery) =>
+  useQuery<IPostsList>({
+    queryKey: ["Posts", searchParams],
+    queryFn: async () => {
+      const url = qs.stringifyUrl({
+        url: 'https://dummyjson.com/posts/search',
+        query: {...searchParams}
+      })
+      return await fetch(url).then((res) => res.json())
+    },
   });
