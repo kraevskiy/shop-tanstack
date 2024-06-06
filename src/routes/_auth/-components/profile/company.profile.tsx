@@ -7,7 +7,7 @@ interface ProfileCompanyProps {
   type?: "card" | "accordion";
 }
 
-const ProfileCompany = ({ user, title = "Company:", type = "card" }: ProfileCompanyProps) => {
+const CompanyProfile = ({ user, title = "Company:", type = "card" }: ProfileCompanyProps) => {
   if (!user) {
     return null;
   }
@@ -35,4 +35,4 @@ const ProfileCompany = ({ user, title = "Company:", type = "card" }: ProfileComp
   return <AppCard title={title} content={<Content />} type={type} />;
 };
 
-export default ProfileCompany;
+export default CompanyProfile;

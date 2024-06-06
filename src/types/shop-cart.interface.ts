@@ -1,4 +1,4 @@
-import { IBaseListResponse } from '@/types/base.interfaces.ts';
+import { IBaseListResponse } from "@/types/base.interfaces.ts";
 
 export interface IShopCartItem {
   id: number;
@@ -21,6 +21,6 @@ export interface IProductInShopCart {
   thumbnail: string;
 }
 
-export interface IShopCartList extends IBaseListResponse{
+export interface IShopCartList extends IBaseListResponse {
   carts: IShopCartItem[];
 }

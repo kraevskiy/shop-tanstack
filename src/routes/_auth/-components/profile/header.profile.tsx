@@ -7,7 +7,7 @@ interface ProfileHeaderProps {
   isMe?: boolean;
 }
 
-const ProfileHeader = ({ user, isMe }: ProfileHeaderProps) => {
+const HeaderProfile = ({ user, isMe }: ProfileHeaderProps) => {
   if (!user) {
     return null;
   }
@@ -36,4 +36,4 @@ const ProfileHeader = ({ user, isMe }: ProfileHeaderProps) => {
   );
 };
 
-export default ProfileHeader;
+export default HeaderProfile;

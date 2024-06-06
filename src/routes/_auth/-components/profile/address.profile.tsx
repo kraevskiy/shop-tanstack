@@ -7,7 +7,7 @@ interface ProfileAddressProps {
   type?: "card" | "accordion";
 }
 
-const ProfileAddress = ({ user, title = "Address:", type = "card" }: ProfileAddressProps) => {
+const AddressProfile = ({ user, title = "Address:", type = "card" }: ProfileAddressProps) => {
   if (!user) {
     return null;
   }
@@ -35,4 +35,4 @@ const ProfileAddress = ({ user, title = "Address:", type = "card" }: ProfileAddr
   return <AppCard title={title} content={<Content />} type={type} />;
 };
 
-export default ProfileAddress;
+export default AddressProfile;

@@ -21,7 +21,7 @@ const AppCard = ({ title = '', type = 'card', content = '' }: AppCardProps) => {
         <CardContent className="pb-0">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1" className="border-b-0">
-              <AccordionTrigger>{title}</AccordionTrigger>
+              <AccordionTrigger className="text-left">{title}</AccordionTrigger>
               <AccordionContent>{content}</AccordionContent>
             </AccordionItem>
           </Accordion>

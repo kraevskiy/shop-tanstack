@@ -1,4 +1,5 @@
 import { createLazyFileRoute, Link } from "@tanstack/react-router";
+import { Minus, Plus } from "lucide-react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card.tsx";
 import Page from "@/components/page.tsx";
@@ -7,10 +8,9 @@ import { currency } from "@/lib/utils.ts";
 import { Separator } from "@/components/ui/separator.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.tsx";
-import { Minus, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge.tsx";
-import ProfileBilling from "@/routes/_auth/-components/profile-billing.tsx";
 import { useUserStore } from "@/hooks/use-user.store.ts";
+import BillingProfile from "@/routes/_auth/-components/profile/billing.profile.tsx";
 
 export const Route = createLazyFileRoute("/_auth/checkout")({
   component: CheckoutPage,
@@ -104,7 +104,7 @@ function CheckoutPage() {
             </div>
           </CardHeader>
           <CardContent className="flex flex-col">
-            <ProfileBilling user={user} title="Billing information:" billingType="bank" />
+            <BillingProfile user={user} title="Billing information:" billingType="bank" />
             <Separator className="my-5" />
             <Button> Buy</Button>
           </CardContent>

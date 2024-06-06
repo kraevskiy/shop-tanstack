@@ -8,7 +8,7 @@ interface ProfileBillingProps {
   type?: "card" | "accordion";
 }
 
-const ProfileBilling = ({ user, billingType = "bank", title, type = "card" }: ProfileBillingProps) => {
+const BillingProfile = ({ user, billingType = "bank", title, type = "card" }: ProfileBillingProps) => {
   const currentTitle = title ? title : billingType === "bank" ? "Bank:" : "Crypto:";
   if (!user) {
     return null;
@@ -49,4 +49,4 @@ const ProfileBilling = ({ user, billingType = "bank", title, type = "card" }: Pr
 
   return <AppCard title={currentTitle} content={<Content />} type={type} />;
 };
-export default ProfileBilling;
+export default BillingProfile;

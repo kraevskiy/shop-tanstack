@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeInfo, Search } from "lucide-react";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { useCopyToClipboard, useDebounceValue } from "usehooks-ts";
 
 import Page from "@/components/page.tsx";
@@ -82,46 +82,48 @@ function UsersPage() {
         </TableHeader>
         <TableBody>
           {data &&
-            data.users.map((user, idx) => (
-              <TableRow key={user.id}>
-                <TableCell>{idx + 1}</TableCell>
-                <TableCell>
-                  <ActionTooltip label="copy">
-                    <span className="cursor-pointer" onClick={() => copyAction(user.email)}>
-                      {user.email}
-                    </span>
-                  </ActionTooltip>
-                </TableCell>
-                <TableCell>{user.username}</TableCell>
-                <TableCell>
-                  {user.firstName} {user.lastName}
-                </TableCell>
-                <TableCell>
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback>{(user.firstName[0] + user.lastName[0]).toUpperCase()}</AvatarFallback>
-                    <AvatarImage src={user.image} />
-                  </Avatar>
-                </TableCell>
-                <TableCell className="whitespace-nowrap">{user.phone}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>{user.id}</TableCell>
-                <TableCell>{format(parseISO(user.birthDate), "dd/MM/yy")}</TableCell>
-                <TableCell>
-                  <div className="flex justify-center gap-1">
-                    <ActionTooltip label="Show all info">
-                      <Link
-                        to="/users/$userId"
-                        params={{
-                          userId: String(user.id),
-                        }}
-                      >
-                        <BadgeInfo className="h-4 w-4 cursor-pointer" />
-                      </Link>
+            data.users.map((user, idx) => {
+              return (
+                <TableRow key={user.id}>
+                  <TableCell>{idx + 1}</TableCell>
+                  <TableCell>
+                    <ActionTooltip label="copy">
+                      <span className="cursor-pointer" onClick={() => copyAction(user.email)}>
+                        {user.email}
+                      </span>
                     </ActionTooltip>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>
+                    {user.firstName} {user.lastName}
+                  </TableCell>
+                  <TableCell>
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback>{(user.firstName[0] + user.lastName[0]).toUpperCase()}</AvatarFallback>
+                      <AvatarImage src={user.image} />
+                    </Avatar>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">{user.phone}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                  <TableCell>{user.id}</TableCell>
+                  <TableCell>{format(new Date(user.birthDate.replace(/-/g, "/")), "dd/MM/yy")}</TableCell>
+                  <TableCell>
+                    <div className="flex justify-center gap-1">
+                      <ActionTooltip label="Show all info">
+                        <Link
+                          to="/users/$userId"
+                          params={{
+                            userId: String(user.id),
+                          }}
+                        >
+                          <BadgeInfo className="h-4 w-4 cursor-pointer" />
+                        </Link>
+                      </ActionTooltip>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
       {data && <Pagination total={data.total} limit={30} skip={data.skip} />}
