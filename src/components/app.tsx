@@ -1,10 +1,8 @@
-import { useEffect } from "react";
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { useShallow } from "zustand/react/shallow";
 
-import { useUserQuery } from "@/lib/queries.ts";
-import { ELocalStorage } from "@/types/local-storage-enum.ts";
 import { useUserStore } from "@/hooks/use-user.store.ts";
 import { ThemeProvider } from "@/components/providers/theme.provider.tsx";
 import { cn } from "@/lib/utils.ts";
@@ -12,17 +10,32 @@ import Spinner from "@/components/spinner.tsx";
 import { Toaster } from "@/components/ui/toaster.tsx";
 import ModalProvider from "@/components/providers/modal.provider.tsx";
 import Header from "@/components/header.tsx";
+import { useEffect } from 'react';
 
 const App = () => {
-  const { data, isFetching, isLoading, isError } = useUserQuery(localStorage.getItem(ELocalStorage.token) ?? "");
-  const { logIn } = useUserStore();
+  const { isInitialLoading, getUser } = useUserStore(
+    useShallow((state) => ({
+      isInitialLoading: state.isInitialLoading,
+      getUser: state.getUser
+    })),
+  );
   const isLoadingRoute = useRouterState({ select: (s) => s.status === "pending" });
 
   useEffect(() => {
-    if (!isError && data) {
-      logIn(data);
+    if (isInitialLoading) {
+      getUser()
     }
-  }, [isError, data]);
+  }, [isInitialLoading])
+
+  if (isInitialLoading) {
+    return (
+      <div className="flex justify-center">
+        <div className={cn("mx-auto flex justify-center rounded-2xl border bg-background p-5 transition-all")}>
+          <Spinner show={true} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <ThemeProvider defaultTheme="dark">
@@ -30,13 +43,13 @@ const App = () => {
         <div
           className={cn(
             "fixed left-1/2 top-0 z-[100] flex -translate-x-1/2 -translate-y-10 justify-center rounded-b-2xl border bg-background px-5 py-1 transition-all",
-            (isFetching || isLoading || isLoadingRoute) && "translate-y-0",
+            isLoadingRoute && "translate-y-0",
           )}
         >
-          <Spinner show={isFetching || isLoading || isLoadingRoute} />
+          <Spinner show={isLoadingRoute} />
         </div>
         <Header />
-        <main className="container flex-1 py-3">
+        <main className="container max-w-screen-2xl flex-1 py-3">
           <Outlet />
         </main>
         <Toaster />

@@ -10,6 +10,7 @@ import { Search } from "lucide-react";
 import { useDebounceValue } from "usehooks-ts";
 import PostsList from "@/routes/posts/-components/posts-list.tsx";
 import PostCard from "@/routes/posts/-components/post-card.tsx";
+import Pagination from "@/components/pagination.tsx";
 
 export const Route = createFileRoute("/posts/")({
   validateSearch: validateSearch<SearchParamsWithQuery>,
@@ -23,7 +24,7 @@ function PostsPage() {
 
   return (
     <Page>
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <Page.H1>
           Posts
           <Spinner show={isPending || isFetching || isLoading} />
@@ -40,11 +41,14 @@ function PostsPage() {
         </div>
       </div>
       {data && (
-        <PostsList>
-          {data.posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </PostsList>
+        <>
+          <PostsList>
+            {data.posts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </PostsList>
+          <Pagination total={data.total} limit={30} skip={data.skip} />
+        </>
       )}
     </Page>
   );

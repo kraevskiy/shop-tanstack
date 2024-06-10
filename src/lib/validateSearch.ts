@@ -6,10 +6,11 @@ export function validateSearch<T extends SearchParams>(search: Record<string, un
     res["limit"] = Number(search.limit);
   }
   if (search.skip) {
-    res["skip"] = Number(search.limit);
+    res["skip"] = Number(search.skip);
   }
   if (search.q) {
-    res["q"] = String(search.limit);
+    res["q"] = String(search.q);
   }
+  // console.log('res---->', res);
   return res as T;
 }

@@ -7,6 +7,7 @@ import Spinner from "@/components/spinner.tsx";
 
 import "@/styles/index.css";
 import { useUserStore } from "@/hooks/use-user.store.ts";
+import { useShallow } from "zustand/react/shallow";
 
 const queryClient = new QueryClient();
 const router = createRouter({
@@ -31,7 +32,11 @@ declare module "@tanstack/react-router" {
 }
 
 const App = () => {
-  const { user } = useUserStore();
+  const { user } = useUserStore(
+    useShallow((state) => ({
+      user: state.user,
+    })),
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

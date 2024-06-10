@@ -38,7 +38,7 @@ const Pagination = ({ total, limit, skip }: { total: number; limit: number; skip
             </Link>
           </PaginationItem>
         )}
-        { isEllipsisStart && (
+        {isEllipsisStart && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>

@@ -10,10 +10,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.tsx"
 import ActionTooltip from "@/components/action-tooltip.tsx";
 import { useToast } from "@/components/ui/use-toast.ts";
 import { SearchParamsWithQuery } from "@/types/search-params.ts";
-import Pagination from "@/routes/products/-components/pagination.tsx";
 import Spinner from "@/components/spinner.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { validateSearch } from '@/lib/validateSearch.ts';
+import { validateSearch } from "@/lib/validateSearch.ts";
+import { initialName } from "@/lib/utils.ts";
+import Pagination from '@/components/pagination.tsx';
 
 export const Route = createFileRoute("/_auth/users/")({
   validateSearch: validateSearch<SearchParamsWithQuery>,
@@ -88,7 +89,7 @@ function UsersPage() {
                   </TableCell>
                   <TableCell>
                     <Avatar className="h-8 w-8">
-                      <AvatarFallback>{(user.firstName[0] + user.lastName[0]).toUpperCase()}</AvatarFallback>
+                      <AvatarFallback>{initialName(user.firstName[0], user.lastName[0])}</AvatarFallback>
                       <AvatarImage src={user.image} />
                     </Avatar>
                   </TableCell>

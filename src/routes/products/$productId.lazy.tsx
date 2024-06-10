@@ -5,6 +5,7 @@ import { useCategoriesListQuery, useProductQuery } from "@/lib/queries.ts";
 import { cn, currency, size } from "@/lib/utils.ts";
 import Spinner from "@/components/spinner.tsx";
 import Carousel from "./-components/carousel.tsx";
+import Reviews from "./-components/reviews.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useUserStore } from "@/hooks/use-user.store.ts";
@@ -13,7 +14,6 @@ import { useModal } from "@/hooks/use-modal.store.ts";
 import Rating from "@/components/rating.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table.tsx";
-import Reviews from "@/components/reviews.tsx";
 
 export const Route = createLazyFileRoute("/products/$productId")({
   component: ProductPage,

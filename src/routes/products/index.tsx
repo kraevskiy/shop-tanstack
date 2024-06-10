@@ -4,12 +4,12 @@ import Page from "@/components/page.tsx";
 import { useProductsQuery } from "@/lib/queries.ts";
 import Categories from "./-components/categories.tsx";
 import ProductCard from "./-components/product-card.tsx";
-import Pagination from "@/routes/products/-components/pagination.tsx";
 import { IProductsItem } from "@/types/product.interface.ts";
 import { useUserStore } from "@/hooks/use-user.store.ts";
 import { useModal } from "@/hooks/use-modal.store.ts";
 import { useShopCard } from "@/hooks/use-shop-card.store.ts";
 import Spinner from "@/components/spinner.tsx";
+import Pagination from '@/components/pagination.tsx';
 import { validateSearch } from '@/lib/validateSearch.ts';
 
 export const Route = createFileRoute("/products/")({

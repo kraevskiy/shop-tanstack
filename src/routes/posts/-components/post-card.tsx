@@ -6,17 +6,24 @@ import { IPostsListItem } from "@/types/post.interface.ts";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import ActionTooltip from "@/components/action-tooltip.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { cn } from "@/lib/utils.ts";
 
 interface PostCardReactionProps {
   label: string;
   text?: string | number;
   Icon?: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+  className?: string;
 }
 
-export const PostCardReaction = ({ label, text, Icon }: PostCardReactionProps) => {
+export const PostCardReaction = ({ label, text, Icon, className }: PostCardReactionProps) => {
   return (
     <ActionTooltip label={label}>
-      <div className="flex h-7 items-center space-x-1 rounded-md border px-1 py-1 text-xs text-muted-foreground sm:h-8 sm:space-x-2 sm:px-2">
+      <div
+        className={cn(
+          "flex h-7 items-center space-x-1 rounded-md border px-1 py-1 text-xs text-muted-foreground sm:h-8 sm:space-x-2 sm:px-2",
+          className,
+        )}
+      >
         {Icon && <Icon className="h-3 w-3 sm:h-4 sm:w-4" />}
         {text && <span className="text-[0.75rem] sm:text-xs">{text}</span>}
         {!text && !Icon && <span className="text-[0.75rem] sm:text-xs">{label}</span>}
@@ -39,6 +46,7 @@ const PostCard = ({ post }: PostCardProps) => {
             params={{
               postId: post.id.toString(),
             }}
+            className="transition-colors hover:text-muted-foreground"
           >
             {post.title}
           </Link>

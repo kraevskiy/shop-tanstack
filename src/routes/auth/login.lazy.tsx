@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator.tsx";
 import Page from "@/components/page.tsx";
 import LoginForm from "@/components/forms/login.form.tsx";
 import { useToast } from "@/components/ui/use-toast.ts";
+import { useUserStore } from '@/hooks/use-user.store.ts';
 
 export const Route = createFileRoute("/auth/login")({
   component: LoginPage,
@@ -26,8 +27,11 @@ export function LoginPage() {
   const navigate = useNavigate();
   const router = useRouter();
   const { toast } = useToast();
+  const {getUser} = useUserStore();
 
-  const onSuccess = () => {
+
+  const onSuccess = async () => {
+    await getUser();
     router.invalidate().then(() => {
       navigate({
         to: "/",

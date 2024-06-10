@@ -1,18 +1,19 @@
-import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button.tsx";
 import { MenuIcon, X } from "lucide-react";
 import { Link, useRouter } from "@tanstack/react-router";
-import { NavigationMenuLink, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu.tsx';
-import { useUserStore } from "@/hooks/use-user.store.ts";
 import { useState } from "react";
+
+import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button.tsx";
+import { NavigationMenuLink, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu.tsx";
+import { useUserStore } from "@/hooks/use-user.store.ts";
 
 const MobileToggle = () => {
   const { user } = useUserStore();
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const isAdmin = user && user.role === 'admin';
-  const isModerator = user && user.role === 'moderator';
+  const isAdmin = user && user.role === "admin";
+  const isModerator = user && user.role === "moderator";
 
   router.subscribe("onResolved", () => {
     if (open) {
@@ -36,27 +37,21 @@ const MobileToggle = () => {
             </DrawerClose>
           </DrawerHeader>
           <DrawerHeader className="flex flex-col">
-            <Link
-              to="/"
-            >
+            <Link to="/">
               {(state) => (
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
                   <span className="!w-full max-w-full">Home</span>
                 </NavigationMenuLink>
               )}
             </Link>
-            <Link
-              to="/products"
-            >
+            <Link to="/products">
               {(state) => (
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
                   <span className="!w-full max-w-full">Products</span>
                 </NavigationMenuLink>
               )}
             </Link>
-            <Link
-              to="/posts"
-            >
+            <Link to="/posts">
               {(state) => (
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
                   <span className="!w-full max-w-full">Posts</span>
@@ -64,9 +59,7 @@ const MobileToggle = () => {
               )}
             </Link>
             {(isAdmin || isModerator) && (
-              <Link
-                to="/users"
-              >
+              <Link to="/users">
                 {(state) => (
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
                     <span className="!w-full max-w-full">Users</span>
@@ -75,9 +68,7 @@ const MobileToggle = () => {
               </Link>
             )}
             {!user && (
-              <Link
-                to="/auth"
-              >
+              <Link to="/auth">
                 {(state) => (
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
                     <span className="!w-full max-w-full">Login</span>

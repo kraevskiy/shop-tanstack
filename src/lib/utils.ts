@@ -21,3 +21,5 @@ export const size = new Intl.NumberFormat('en-US', {
   style: 'unit',
   unit: 'centimeter'
 })
+
+export const initialName = (firstName = ' ', lastName = ' ') => `${firstName[0]}${lastName[0]}`.toUpperCase()

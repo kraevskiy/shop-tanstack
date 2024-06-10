@@ -6,27 +6,8 @@ import { LoginInputs } from "@/types/login.schema.ts";
 import { SearchParams, SearchParamsWithQuery } from "@/types/search-params.ts";
 import { IProduct, IProductsList } from "@/types/product.interface.ts";
 import { ICategory } from "@/types/category.interface.ts";
-import { IShopCartList } from '@/types/shop-cart.interface.ts';
-import { IPostsList } from '@/types/post.interface.ts';
-
-export const useUserQuery = (token: string) =>
-  useQuery<IUser>({
-    queryKey: [token],
-    queryFn: async () =>
-      fetch("https://dummyjson.com/auth/me", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then(async (res) => {
-        const result = await res.json();
-        if (!res.ok) {
-          throw res;
-        }
-        return result;
-      }),
-    retry: false,
-  });
+import { IShopCartList } from "@/types/shop-cart.interface.ts";
+import { IPostCommentsList, IPostsList, IPostsListItem, IPostAuthor } from '@/types/post.interface.ts';
 
 export const useLoginMutation = () =>
   useMutation<IUserLogin | { message: string }, Error, LoginInputs>({
@@ -100,9 +81,28 @@ export const usePostsQuery = (searchParams?: SearchParamsWithQuery) =>
     queryKey: ["Posts", searchParams],
     queryFn: async () => {
       const url = qs.stringifyUrl({
-        url: 'https://dummyjson.com/posts/search',
-        query: {...searchParams}
-      })
-      return await fetch(url).then((res) => res.json())
+        url: "https://dummyjson.com/posts/search",
+        query: { ...searchParams },
+      });
+      return await fetch(url).then((res) => res.json());
     },
+  });
+
+export const usePostIdQuery = (postId: string) =>
+  useQuery<IPostsListItem>({
+    queryKey: ["Post", postId],
+    queryFn: async () => fetch(`https://dummyjson.com/posts/${postId}`).then((res) => res.json()),
+  });
+
+export const usePostIdCommentsMutation = () =>
+  useMutation<IPostCommentsList, Error, string>({
+    mutationKey: ['PostComments'],
+    mutationFn: async (postId) => fetch(`https://dummyjson.com/posts/${postId}/comments`).then((res) => res.json()),
+  });
+
+export const usePostIdUserMutation = () =>
+  useMutation<IPostAuthor, Error, string>({
+    mutationKey: ['PostAuthor'],
+    mutationFn: async (userId) =>
+      fetch(`https://dummyjson.com/users/${userId}?select=username,firstName,lastName,image`).then((res) => res.json()),
   });
