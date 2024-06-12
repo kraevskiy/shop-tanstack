@@ -68,6 +68,15 @@ const MobileToggle = () => {
               </Link>
             )}
             {!user && (
+              <Link to="/todo">
+                {(state) => (
+                  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
+                    <span className="!w-full max-w-full">ToDo</span>
+                  </NavigationMenuLink>
+                )}
+              </Link>
+            )}
+            {!user && (
               <Link to="/auth">
                 {(state) => (
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>

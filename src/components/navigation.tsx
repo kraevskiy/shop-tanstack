@@ -60,6 +60,17 @@ const Navigation = () => {
           </NavigationMenuItem>
         )}
         {user && (
+          <NavigationMenuItem className="hidden md:block">
+            <Link to="/todo">
+              {(state) => (
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={state.isActive}>
+                  <span>ToDo</span>
+                </NavigationMenuLink>
+              )}
+            </Link>
+          </NavigationMenuItem>
+        )}
+        {user && (
           <>
             <NavigationMenuItem>
               <ShopCardMenu />

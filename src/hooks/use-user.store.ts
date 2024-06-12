@@ -22,7 +22,7 @@ export const useUserStore = create<UserData & UserActions>((set) => ({
       set({ isInitialLoading: false });
       return;
     }
-    await fetch("https://dummyjson.com/auth/me", {
+    await fetch("/api-dummy/auth/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -33,6 +33,9 @@ export const useUserStore = create<UserData & UserActions>((set) => ({
       } else {
         set({ user: result, isInitialLoading: false });
       }
+    }).catch(e => {
+      console.log(e);
+      set({ isInitialLoading: false });
     });
   },
 }));

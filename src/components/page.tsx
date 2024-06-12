@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils.ts";
 interface TitlePageProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
 
 const Page = ({ className, ...props }: TitlePageProps) => {
-  return <div className={cn("flex flex-col gap-2 pb-20", className)} {...props} />;
+  return <div className={cn("flex flex-col gap-2 pb-20 h-full", className)} {...props} />;
 };
 
 interface TitlePageHProps extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {}

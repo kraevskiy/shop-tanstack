@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as ProductsIndexImport } from './routes/products/index'
 import { Route as PostsIndexImport } from './routes/posts/index'
+import { Route as AuthTodoImport } from './routes/_auth/todo'
 import { Route as AuthUsersIndexImport } from './routes/_auth/users/index'
 
 // Create Virtual Routes
@@ -101,6 +102,11 @@ const AuthBillingLazyRoute = AuthBillingLazyImport.update({
   getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./routes/_auth/billing.lazy').then((d) => d.Route))
 
+const AuthTodoRoute = AuthTodoImport.update({
+  path: '/todo',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 const ProductsCategoryIndexLazyRoute = ProductsCategoryIndexLazyImport.update({
   path: '/products/category/',
   getParentRoute: () => rootRoute,
@@ -147,6 +153,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/todo': {
+      id: '/_auth/todo'
+      path: '/todo'
+      fullPath: '/todo'
+      preLoaderRoute: typeof AuthTodoImport
+      parentRoute: typeof AuthImport
     }
     '/_auth/billing': {
       id: '/_auth/billing'
@@ -254,6 +267,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   AuthRoute: AuthRoute.addChildren({
+    AuthTodoRoute,
     AuthBillingLazyRoute,
     AuthCheckoutLazyRoute,
     AuthProfileLazyRoute,
@@ -298,12 +312,17 @@ export const routeTree = rootRoute.addChildren({
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
+        "/_auth/todo",
         "/_auth/billing",
         "/_auth/checkout",
         "/_auth/profile",
         "/_auth/users/$userId",
         "/_auth/users/"
       ]
+    },
+    "/_auth/todo": {
+      "filePath": "_auth/todo.tsx",
+      "parent": "/_auth"
     },
     "/_auth/billing": {
       "filePath": "_auth/billing.lazy.tsx",
