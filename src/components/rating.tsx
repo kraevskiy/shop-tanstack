@@ -85,8 +85,8 @@ const Rating = React.forwardRef(
       ) : null;
 
     return (
-      <div className={cn("flex w-fit items-center gap-2")} onMouseLeave={handleMouseLeave} {...props} ref={ref}>
-        <div className="flex items-center" onMouseEnter={handleMouseEnter}>
+      <div data-testid="rating" className={cn("flex w-fit items-center gap-2")} onMouseLeave={handleMouseLeave} {...props} ref={ref}>
+        <div className="flex items-center" data-testid="rating-stars" onMouseEnter={handleMouseEnter}>
           {[...Array(fullStars)].map((_, i) =>
             React.cloneElement(Icon, {
               key: i,
@@ -110,7 +110,7 @@ const Rating = React.forwardRef(
           )}
         </div>
         {(hideNumber === undefined || !hideNumber) && (
-          <span className="text-muted-foreground">{`${currentRating}`}</span>
+          <span data-testid="rating-number" className="text-muted-foreground">{`${currentRating}`}</span>
         )}
       </div>
     );
